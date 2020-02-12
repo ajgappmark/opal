@@ -1536,10 +1536,18 @@
     }
 
     if (object.$$is_number && klass.$$is_number_class) {
-      return true;
+      if (klass.$$is_integer_class)
+        return (object % 1) === 0
+      else
+        return true;
     }
 
-    var i, length, ancestors = Opal.ancestors(object.$$is_class ? Opal.get_singleton_class(object) : (object.$$meta || object.$$class));
+    var i, length,
+        ancestors = Opal.ancestors(
+          object.$$is_class ?
+            Opal.get_singleton_class(object) :
+            (object.$$meta || object.$$class)
+        );
 
     for (i = 0, length = ancestors.length; i < length; i++) {
       if (ancestors[i] === klass) {
